@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fallback tokens (overwritten at runtime by lib/theme.ts) */
+:root {
+  --bg: 0.155 0.04 266;
+  --panel: 0.2 0.045 266;
+  --panel-2: 0.178 0.042 266;
+  --raised: 0.26 0.05 266;
+  --line: 0.31 0.05 266;
+  --fg: 0.96 0.012 266;
+  --muted: 0.78 0.03 266;
+  --faint: 0.62 0.035 266;
+  --accent: 0.91 0.2 127;
+  --accent-fg: 0.19 0.05 266;
+  --accent-2: 0.84 0.13 175;
+  --danger: 0.7 0.19 22;
+  --key: 0.88 0.17 100;
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: oklch(var(--bg));
+  overscroll-behavior: none;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'cv11', 'ss01';
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(var(--line)) transparent;
+}
+
+@layer components {
+  .tl-btn {
+    @apply grid h-6 w-6 place-items-center rounded-md text-muted hover:bg-raised hover:text-fg disabled:opacity-40;
+  }
+}
+
+/* Range input styled with theme tokens */
+.vm-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: oklch(var(--raised));
+  outline: none;
+}
+.vm-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: oklch(var(--accent));
+  border: 2px solid oklch(var(--panel));
+  cursor: pointer;
+}
+.vm-range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: oklch(var(--accent));
+  border: 2px solid oklch(var(--panel));
+  cursor: pointer;
+}
+.vm-range:focus-visible {
+  box-shadow: 0 0 0 2px oklch(var(--accent) / 0.6);
+}
+
+@keyframes vm-ease-demo {
+  from {
+    left: 4px;
+  }
+  to {
+    left: calc(100% - 12px);
+  }
+}
+
+/* ── VectoWave logo animation ─────────────────────────────────────────── */
+.vw-logo-anim {
+  overflow: visible;
+  animation: vw-pop 900ms cubic-bezier(0.2, 1.5, 0.4, 1) both;
+}
+.vw-logo-anim .vw-wave,
+.vw-logo-anim .vw-curl,
+.vw-logo-anim .vw-bubble,
+.vw-logo-anim .vw-hole {
+  transform-box: fill-box;
+}
+.vw-logo-anim .vw-wave {
+  transform-origin: 50% 100%;
+  animation: vw-sway 4.2s ease-in-out infinite;
+}
+.vw-logo-anim .vw-curl {
+  transform-origin: 85% 60%;
+  animation: vw-curl 2.6s ease-in-out infinite alternate;
+}
+.vw-logo-anim .vw-bubble {
+  transform-origin: 50% 50%;
+  animation: vw-float 3.2s ease-in-out infinite;
+}
+.vw-logo-anim .vw-hole {
+  transform-origin: 50% 50%;
+  animation: vw-rise-bubble 2.8s ease-in-out infinite;
+}
+@keyframes vw-pop {
+  from { opacity: 0; transform: scale(0.6) rotate(-8deg); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes vw-sway {
+  0%, 100% { transform: rotate(-2.5deg) scaleY(1); }
+  50% { transform: rotate(2deg) scaleY(1.03); }
+}
+@keyframes vw-curl {
+  from { transform: rotate(-7deg) translateY(2px); }
+  to { transform: rotate(5deg) translateY(-4px); }
+}
+@keyframes vw-float {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 1; }
+  50% { transform: translateY(-16px) scale(1.12); opacity: 0.75; }
+}
+@keyframes vw-rise-bubble {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-7px) scale(0.85); }
+}
+
+/* ── Intro screen ─────────────────────────────────────────────────────── */
+.vw-logo-glow { filter: drop-shadow(0 0 38px oklch(0.91 0.2 127 / 0.45)); }
+.vw-glow { animation: vw-drift 18s ease-in-out infinite alternate; }
+@keyframes vw-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, 40px) scale(1.12); }
+  100% { transform: translate(-40px, 70px) scale(0.95); }
+}
+.vw-wave-line { animation: vw-wave-move 12s linear infinite; }
+@keyframes vw-wave-move { to { transform: translateX(-50%); } }
+.vw-rise, .vw-card { animation: vw-rise 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes vw-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
